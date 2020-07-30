@@ -27,6 +27,15 @@ describe('AppComponent', () => {
     htmlElement = debugElement.nativeElement;
   })
 
+  it('should toggle show state', () => { 
+    const initialState = component.showLikes
+    component.toggleShowLikes();
+    fixture.detectChanges()
+    const currentState = component.showLikes
+
+    expect(currentState).toBe(!initialState)
+  })
+
   it('should increment the likes by 1', () => { 
     const initialValue = component.likesCount
     component.newLike()
