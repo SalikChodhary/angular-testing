@@ -1,35 +1,52 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { DebugElement } from '@angular/core'
 import { AppComponent } from './app.component';
+import { By } from '@angular/platform-browser'
+
 
 describe('AppComponent', () => {
-  beforeEach(async(() => {
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
+  let debugElement: DebugElement
+  let htmlElement: HTMLElement
+  beforeEach(async(() => { 
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule
-      ],
-      declarations: [
-        AppComponent
-      ],
-    }).compileComponents();
-  }));
+      declarations: [AppComponent], 
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
+    }).compileComponents()
+  }))
 
-  it(`should have as title 'angular-testing'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('angular-testing');
-  });
+  beforeEach(() => { 
+    fixture = TestBed.createComponent(AppComponent)
+    component = fixture.componentInstance;
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('angular-testing app is running!');
-  });
+
+    debugElement = fixture.debugElement.query(By.css('.likes'))
+    htmlElement = debugElement.nativeElement;
+  })
+
+  it('should increment the likes by 1', () => { 
+    const initialValue = component.likesCount
+    component.newLike()
+    fixture.detectChanges()
+    const newValue = component.likesCount
+
+    expect(newValue).toBeGreaterThan(initialValue);
+  })
+
+  it('should decrement the likes by 1', () => { 
+    const initialValue = component.likesCount
+    component.newDislike()
+    fixture.detectChanges()
+    const newValue = component.likesCount
+
+    expect(newValue).toBeLessThan(initialValue);
+  })
+
+  it('should display the current number of likes', () => { 
+    //assert that the text on screen is of number 0
+    expect(htmlElement.textContent).toEqual('Total Likes: 0')
+  })
 });

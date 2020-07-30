@@ -6,5 +6,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'angular-testing';
+  likesCount: number = 0;
+  showLikes: boolean = true;
+
+  newLike() { 
+    this.likesCount++;
+  }
+  newDislike() { 
+    this.likesCount--;
+  }
+  toggleShowLikes() { 
+    this.showLikes = !this.showLikes; 
+  }
 }
